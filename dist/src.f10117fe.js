@@ -147,6 +147,18 @@ function () {
     this.events[eventName] = handlers;
   };
 
+  User.prototype.trigger = function (eventName) {
+    var handlers = this.events[eventName];
+
+    if (!handlers || handlers.length === 0) {
+      return;
+    }
+
+    handlers.forEach(function (callback) {
+      callback();
+    });
+  };
+
   return User;
 }();
 
