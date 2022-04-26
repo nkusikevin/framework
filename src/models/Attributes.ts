@@ -2,8 +2,8 @@
 export class Atrributes<T> {
 	constructor(public data: T) {}
 
-	get(PropName: string): number | string {
-		return this.data[PropName];
+	get<K extends keyof T>(key: K): T[K] {
+		return this.data[key];
 	}
 
 	set(update: T): void {
