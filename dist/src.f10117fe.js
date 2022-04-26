@@ -6128,6 +6128,10 @@ function () {
     Object.assign(this.data, update);
   };
 
+  Atrributes.prototype.getAll = function () {
+    return this.data;
+  };
+
   return Atrributes;
 }();
 
@@ -6146,7 +6150,7 @@ var Sync_1 = require("./Sync");
 
 var Attributes_1 = require("./Attributes");
 
-var rootUrl = "http://localhost:3000/users";
+var rootUrl = "http://localhost:3000";
 
 var User =
 /** @class */
@@ -6180,7 +6184,7 @@ function () {
   User.prototype.fetch = function () {
     var _this = this;
 
-    var id = this.attributes.get('id');
+    var id = this.attributes.get("id");
 
     if (typeof id !== "number") {
       throw new Error("Cannot fetch without an id");
@@ -6191,7 +6195,15 @@ function () {
     });
   };
 
-  User.prototype.save = function () {};
+  User.prototype.save = function () {
+    var _this = this;
+
+    this.sync.save(this.attributes.getAll()).then(function (res) {
+      _this.events.trigger("save");
+    }).catch(function () {
+      _this.events.trigger("error");
+    });
+  };
 
   return User;
 }();
@@ -6207,16 +6219,14 @@ Object.defineProperty(exports, "__esModule", {
 var User_1 = require("./models/User");
 
 var user = new User_1.User({
-  name: "John",
-  age: 400
+  id: 1,
+  name: "John k",
+  age: 44
 });
 user.on("change", function () {
   console.log("User Changed");
 });
-user.set({
-  name: "nkusi"
-});
-console.log(user.userGet("name"));
+user.save();
 },{"./models/User":"src/models/User.ts"}],"../.nvm/versions/node/v14.18.3/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
