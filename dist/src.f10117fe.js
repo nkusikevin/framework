@@ -6161,50 +6161,6 @@ function () {
     this.attributes = new Attributes_1.Atrributes(attrs);
   }
 
-  Object.defineProperty(User.prototype, "on", {
-    get: function get() {
-      return this.events.on;
-    },
-    enumerable: false,
-    configurable: true
-  });
-  Object.defineProperty(User.prototype, "userGet", {
-    get: function get() {
-      return this.attributes.get;
-    },
-    enumerable: false,
-    configurable: true
-  });
-
-  User.prototype.set = function (update) {
-    this.attributes.set(update);
-    this.events.trigger("change");
-  };
-
-  User.prototype.fetch = function () {
-    var _this = this;
-
-    var id = this.attributes.get("id");
-
-    if (typeof id !== "number") {
-      throw new Error("Cannot fetch without an id");
-    }
-
-    this.sync.fetch(id).then(function (res) {
-      _this.set(res.data);
-    });
-  };
-
-  User.prototype.save = function () {
-    var _this = this;
-
-    this.sync.save(this.attributes.getAll()).then(function (res) {
-      _this.events.trigger("save");
-    }).catch(function () {
-      _this.events.trigger("error");
-    });
-  };
-
   return User;
 }();
 
